@@ -4,16 +4,19 @@ SEQ_FILE=$1
 N_TABLES=$2
 TABLE_SIZE=$3
 
-k_values="${@:4}"
-seq_basename=$(basename "$SEQ_FILE" ".fq.gz")
+args=("$@")
+k_values=(${args[@]:3})
+seq_basename=$(basename "$SEQ_FILE" ".il.fq.gz")
 log_file="$seq_basename.log"
 
 : > "$log_file"
 
-for k in $k_values; do
+for k in ${k_values[@]}; do
 
     table_file="$seq_basename.k$k.htable" 
     hist_file="$seq_basename.k$k.hist"
+    echo $k
+    continue
 
     {
     echo "Hashing for k=$k" 
