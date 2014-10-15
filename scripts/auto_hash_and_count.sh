@@ -7,13 +7,19 @@ TABLE_SIZE=$3
 args=("$@")
 k_values=(${args[@]:3}) # Get array of k values
 seq_basename=$(basename "$SEQ_FILE" ".il.fq.gz")
-log_file="$seq_basename.log"
+
+# Array concatenation with delimiter
+# Source: Nicholas Sushkin, http://stackoverflow.com/questions/1527049/bash-join-elements-of-an-array
+function join { local IFS="$1"; shift; echo "$*"; }
+
+all_ks=$(join , "${k_values[@]}")
+log_file="$seq_basename.k$all_ks.log"
 
 # Clear the log file
 : > "$log_file"
 
-for k in ${k_values[@]}; do
-
+for k in ${k_values[@]}
+do
     table_file="$seq_basename.k$k.htable" 
     hist_file="$seq_basename.k$k.hist"
 
@@ -27,7 +33,7 @@ for k in ${k_values[@]}; do
     {
     printf "\nCreating histogram for k=$k\n" 
     time abundance-dist.py --no-zero --squash "$table_file" "$SEQ_FILE" "$hist_file"
-    printf "\n"
+    printf "\n";
     } >> "$log_file" 2>&1
-
 done
+
