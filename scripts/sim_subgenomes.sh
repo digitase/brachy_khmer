@@ -17,29 +17,28 @@ function join { local IFS="$1"; shift; echo "$*"; }
 # Add subgenome proportions and rates to filename
 all_props=$(join , "${read_proportions[@]}")
 all_rates=$(join , "${mutation_rates[@]}")
-out_read_file="$ref_basename.-${all_props}-${all_rates}-.fq.gz"
+out_read_file="$ref_basename.-${all_props}-${all_rates}-.il.fq.gz"
 : > $out_read_file
 
 echo "Output file: $out_read_file"
 
 # Simulate the proportional number of reads for each subgenome
 
-fifo1="$RANDOM.fifo"
-fifo2="$RANDOM.fifo"
-mkfifo $fifo1 $fifo2
+tmp1="$RANDOM.tmp"
+tmp2="$RANDOM.tmp"
 
-for ((n=0; n<SUBGENOME_NUM; n++)); do
-    
+for (( n=0; n<SUBGENOME_NUM; n++ ))
+do
     # Calculate number of reads to simulate of the total read number
     read_num=$(bc <<< "${read_proportions[$n]} * $TOTAL_READ_NUM / 1")
 
-    echo "Simulating $read_num reads at mutation rate ${mutation_rates[$n]} for subgenome $n"
+    echo "Simulating $read_num read pairs at mutation rate ${mutation_rates[$n]} for subgenome $n"
 
+    # Discard details about location of mutations to /dev/null
     # Usage:   wgsim [options] <in.ref.fa> <out.read1.fq> <out.read2.fq>
-    wgsim -N $read_num -1 $READ_LEN -2 $READ_LEN -r "${mutation_rates[$n]}" "$REF_FILE" $fifo1 $fifo2 >/dev/null &
-    pairs join $fifo1 $fifo2 | gzip >> $out_read_file
-
+    wgsim -N $read_num -1 $READ_LEN -2 $READ_LEN -r "${mutation_rates[$n]}" "$REF_FILE" $tmp1 $tmp2 >/dev/null
+    pairs join $tmp1 $tmp2 | gzip >> "$out_read_file"
 done
 
-rm $fifo1 $fifo2
+rm $tmp1 $tmp2
 
