@@ -26,7 +26,7 @@ do
     # Count kmers
     {
     echo "Hashing for k=$k" 
-    time load-into-counting.py --ksize "$k" --n_tables "$N_TABLES" --min-tablesize "$TABLE_SIZE" "$table_file" "$SEQ_FILE" 
+    time load-into-counting.py --ksize "$k" --n_tables "$N_TABLES" --min-tablesize "$TABLE_SIZE" --report-total-kmers "$table_file" "$SEQ_FILE" 
     } >> "$log_file" 2>&1
 
     # Get kmer distribution
