@@ -1,0 +1,16 @@
+bd1_gbs
+    ben@percy:/mnt/rescued_fast/datasets/brachygbs/bd1/demultiplexed2
+
+bd6_gbs
+    ben@percy:/mnt/rescued_fast/datasets/brachygbs/bd6/demultiplexed
+
+vogel_hexaploids
+    ben@ben-Rev-1-0:/network/n1ws_largedata/archive/kevin/abr113/BrahybPopulation/Raw\ Data
+
+Brachy ref
+    ben@percy:~$ head /mnt/rescued_fast/refseqs/bd21/Bdistachyon_MIPS_1_2.fa
+
+bdis05
+    ben@percy:~/data/bdis05$ cp /mnt/rescued_fast/datasets/brachywgs/norman_plate_1/reads/Bdis05-1/Bdis05-1_qcd_il.fq ./
+
+
