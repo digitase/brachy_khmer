@@ -57,7 +57,7 @@ for i, line in enumerate(table_files):
             
         print "Analysing next {0} most abundant kmers.".format(num_repeats)            
         repeat_list = heapq.nlargest(skip+num_repeats, kmer_counts)
-        print "These are (count, kmer):", repeat_list
+        # print "These are (count, kmer):", repeat_list
         pres_abs = [str(count/float(num_read_pairs)) for (count, _) in repeat_list]
     else:
         pres_abs = [str(ht.get(kmer_str)/float(num_read_pairs)) for (_, kmer_str) in repeat_list]
