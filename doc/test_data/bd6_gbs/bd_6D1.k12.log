@@ -1,0 +1,58 @@
+Hashing for k=12
+
+|| This is the script 'load-into-counting.py' in khmer.
+|| You are running khmer version 1.2-rc2-6-gc5dee21
+|| You are also using screed version 0.7
+||
+|| If you use this script in a publication, please cite EACH of the following:
+||
+||   * MR Crusoe et al., 2014. doi: 10.6084/m9.figshare.979190
+||   * Q Zhang et al., arXiv:1309.2975 [q-bio.GN]
+||
+|| Please see http://khmer.readthedocs.org/en/latest/citations.html for details.
+
+
+PARAMETERS:
+ - kmer size =    12 		(-k)
+ - n tables =     4 		(-N)
+ - min tablesize = 1e+08 	(-x)
+
+Estimated memory usage is 4e+08 bytes (n_tables x min_tablesize)
+--------
+Total number of k-mers: 6767835
+Saving k-mer counting table to bd_6D1.k12.htable
+Loading kmers from sequences in ['./bd_6D1.il.fq.gz']
+making k-mer counting table
+consuming input ./bd_6D1.il.fq.gz
+saving bd_6D1.k12.htable
+fp rate estimated to be 0.000
+DONE.
+wrote to: bd_6D1.k12.htable.info
+
+real	1m55.086s
+user	1m41.986s
+sys	0m3.744s
+
+Creating histogram for k=12
+
+|| This is the script 'abundance-dist.py' in khmer.
+|| You are running khmer version 1.2-rc2-6-gc5dee21
+|| You are also using screed version 0.7
+||
+|| If you use this script in a publication, please cite EACH of the following:
+||
+||   * MR Crusoe et al., 2014. doi: 10.6084/m9.figshare.979190
+||   * Q Zhang et al., arXiv:1309.2975 [q-bio.GN]
+||
+|| Please see http://khmer.readthedocs.org/en/latest/citations.html for details.
+
+hashtable from bd_6D1.k12.htable
+K: 12
+HT sizes: [100000007L, 100000037L, 100000039L, 100000049L]
+outputting to bd_6D1.k12.hist
+preparing hist...
+
+real	0m43.644s
+user	0m39.574s
+sys	0m3.112s
+

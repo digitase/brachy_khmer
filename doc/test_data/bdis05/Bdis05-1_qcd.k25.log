@@ -1,0 +1,57 @@
+Hashing for k=25
+
+|| This is the script 'load-into-counting.py' in khmer.
+|| You are running khmer version 1.2-rc2-6-gc5dee21
+|| You are also using screed version 0.7
+||
+|| If you use this script in a publication, please cite EACH of the following:
+||
+||   * MR Crusoe et al., 2014. doi: 10.6084/m9.figshare.979190
+||   * Q Zhang et al., arXiv:1309.2975 [q-bio.GN]
+||
+|| Please see http://khmer.readthedocs.org/en/latest/citations.html for details.
+
+
+PARAMETERS:
+ - kmer size =    25 		(-k)
+ - n tables =     4 		(-N)
+ - min tablesize = 2e+09 	(-x)
+
+Estimated memory usage is 8e+09 bytes (n_tables x min_tablesize)
+--------
+Saving k-mer counting table to Bdis05-1_qcd.k25.htable
+Loading kmers from sequences in ['Bdis05-1_qcd.il.fq.gz']
+making k-mer counting table
+consuming input Bdis05-1_qcd.il.fq.gz
+saving Bdis05-1_qcd.k25.htable
+fp rate estimated to be 0.000
+DONE.
+wrote to: Bdis05-1_qcd.k25.htable.info
+
+real	12m12.735s
+user	11m50.624s
+sys	0m18.149s
+
+Creating histogram for k=25
+
+|| This is the script 'abundance-dist.py' in khmer.
+|| You are running khmer version 1.2-rc2-6-gc5dee21
+|| You are also using screed version 0.7
+||
+|| If you use this script in a publication, please cite EACH of the following:
+||
+||   * MR Crusoe et al., 2014. doi: 10.6084/m9.figshare.979190
+||   * Q Zhang et al., arXiv:1309.2975 [q-bio.GN]
+||
+|| Please see http://khmer.readthedocs.org/en/latest/citations.html for details.
+
+hashtable from Bdis05-1_qcd.k25.htable
+K: 25
+HT sizes: [2000000011L, 2000000033L, 2000000063L, 2000000087L]
+outputting to Bdis05-1_qcd.k25.hist
+preparing hist...
+
+real	8m4.674s
+user	7m48.525s
+sys	0m12.749s
+
