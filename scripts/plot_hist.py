@@ -9,10 +9,10 @@ filename = sys.argv[1]
 sample_name = os.path.splitext(os.path.basename(filename))[0]
 hist = np.loadtxt(filename, dtype=float, delimiter=" ")
 
-plt.plot(hist[:, 0], hist[:, 1])
+plt.plot(hist[:, 0], np.log10(hist[:, 1]))
 plt.suptitle(sample_name)
 plt.xlabel("Kmer abundance")
-plt.ylabel("Frequency")
+plt.ylabel("log10(Frequency)")
 
 # If we are looking at the graph interactively, we won't have axis limits
 save_fig = True
