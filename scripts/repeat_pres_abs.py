@@ -5,33 +5,17 @@ import heapq
 import os
 import sys
 
-k = int(sys.argv[1])
-num_repeats = int(sys.argv[2])
-table_files_list = sys.argv[3]
+table_files_list = sys.argv[1]
+k = int(sys.argv[2])
+skip = int(sys.argv[3])
+num_repeats = int(sys.argv[4])
+
 table_files = [line.strip() for line in open(table_files_list, "r")]
-norm = (sys.argv[4] == "norm")
-print norm
 
-read_nums = [3.97, 1.00, 2.01, 3.84, 1.02, 2.01]
-# /home/ben/data/bd1_gbs/bd_1E4.k12.htable
-# /home/ben/data/bd1_gbs/bd_1F9.k12.htable
-# /home/ben/data/bd1_gbs/bd_1E6.k12.htable
-# /home/ben/data/bd6_gbs/bd_6D1.k12.htable
-# /home/ben/data/bd6_gbs/bd_6F11.k12.htable
-# /home/ben/data/bd6_gbs/bd_6H11.k12.htable
+out_file_basename = os.path.splitext(os.path.basename(table_files_list))[0]
+out_filename = "{0}.skip{1}.N{2}.pres_abs.csv".format(out_file_basename, skip, num_repeats)
 
-# Coding kmers with integers
-# kmer_code_to_string = {}
-# kmer_string_to_code = {}
-
-# for code, kmer in enumerate(it.product("ACTG", repeat=k)):
-    # kmer_str = "".join(kmer)
-    # kmer_code_to_string[code] = kmer_str
-    # kmer_string_to_code[kmer_str] = code
-
-out_filename = os.path.splitext(os.path.basename(table_files_list))[0]
-
-outfile = open(out_filename + ".norm.csv", "w") if norm else open(out_filename + ".csv", "w")
+outfile = open(out_filename, "w")
 
 # Monitor progress
 j = 0
@@ -50,35 +34,43 @@ def generate_kmer_counts(k, ht, alpha="ACTG"):
 
 # Get most abundant kmers in first sample
 # Construct presence-absence matrix for those kmers over all samples
-for i, file in enumerate(table_files):
-    sample_name = os.path.splitext(os.path.basename(file))[0]
-    print "Loading sample %d of %d: %s" % (i+1, len(table_files), sample_name)
-    ht = khmer.load_counting_hash(file)
+pc_pres = []
+for i, line in enumerate(table_files):
+    filename, num_read_pairs = line.strip().split()
+    num_read_pairs = int(num_read_pairs)
+    sample_name = os.path.splitext(os.path.basename(filename))[0]
+    
+    print "Loading sample {0} of {1} ({2} read pairs): {3}".format(i+1, len(table_files), num_read_pairs, sample_name)
+    ht = khmer.load_counting_hash(filename)
 
     if i == 0:
-        print "Counting first sample:", sample_name
-        kmer_counts = generate_kmer_counts(k, ht)
+        print "Counting first sample: {0}".format(sample_name)
+        kmer_counts = list(generate_kmer_counts(k, ht))
 
-        if norm:
-            repeat_list = heapq.nlargest(num_repeats, kmer_counts)
-            pres_abs = [str(count/read_nums[i]) for (count, _) in repeat_list]
-        else:
-            # Pure presence-absence
-            repeat_list = [kmer_str for (_, kmer_str) in heapq.nlargest(num_repeats, kmer_counts)]
-            pres_abs = ["1" for _ in repeat_list]
-
+        print "Heapifying..."
+        heapq.heapify(kmer_counts)        
+        # Discard most abundant kmers
+        
+        print "Discarding top {0} most abundant kmers.".format(skip)
+        for s in range(skip):
+            heapq.heappop(kmer_counts)
+            
+        print "Analysing next {0} most abundant kmers.".format(num_repeats)            
+        repeat_list = heapq.nlargest(skip+num_repeats, kmer_counts)
+        print "These are (count, kmer):", repeat_list
+        pres_abs = [str(count/float(num_read_pairs)) for (count, _) in repeat_list]
     else:
-        if norm:
-            pres_abs = [str(ht.get(kmer_str)/read_nums[i]) for (_, kmer_str) in repeat_list]
-        else:
-            pres_abs = [str(int(ht.get(kmer_str) > 0)) for kmer_str in repeat_list]
+        pres_abs = [str(ht.get(kmer_str)/float(num_read_pairs)) for (_, kmer_str) in repeat_list]
 
     del ht
-    if norm:
-        print "Sample has {0:.2f} total normalised counts.".format(sum(map(float, pres_abs)))
-    else:
-        print "Sample has {0:.2f}% presence.".format(float(sum(map(int, pres_abs)))/num_repeats * 100)
+    print "\tSample has {0:.2f} total normalised counts.".format(sum(map(float, pres_abs)))
+    sample_pc_pres = (num_repeats-pres_abs.count("0.0"))/float(num_repeats) * 100
+    print "\tSample has {0:.2f}% presence.".format(sample_pc_pres)
+    pc_pres.append(sample_pc_pres)
     outfile.write("%s,%s\n" % (sample_name, ",".join(pres_abs)))
-       
+
+print "Mean sample presence proportion is {0:.2f}%".format(sum(pc_pres)/len(pc_pres))       
 outfile.close()
+print "Output matrix saved to", out_filename
+
 
