@@ -5,12 +5,18 @@ import numpy as np
 import matplotlib
 import matplotlib.pyplot as plt
 
-filename = sys.argv[1]
-sample_name = os.path.splitext(os.path.basename(filename))[0]
-hist = np.loadtxt(filename, dtype=float, delimiter=" ")
+xlim_max = int(sys.argv[1])
+ylim_max = int(sys.argv[2])
+filenames = sys.argv[3:]
 
-plt.plot(hist[:, 0], np.log10(hist[:, 1]))
-plt.suptitle(sample_name)
+sample_names = [os.path.splitext(os.path.basename(filename))[0] for filename in filenames]
+
+for filename, sample_name in zip(filenames, sample_names):
+    hist = np.loadtxt(filename, dtype=float, delimiter=" ")
+    plt.plot(hist[:, 0], np.log10(hist[:, 1]), label=sample_name)
+
+plt.legend(loc='best')
+plt.suptitle("\n".join(sample_names))
 plt.xlabel("Kmer abundance")
 plt.ylabel("log10(Frequency)")
 
@@ -18,19 +24,14 @@ plt.ylabel("log10(Frequency)")
 save_fig = True
 
 try:
-    plt.xlim(0, int(sys.argv[2]))
-    plt.ylim(0, int(sys.argv[3]))
+    plt.xlim(0, xlim_max)
+    plt.ylim(0, ylim_max)
 except IndexError:
     save_fig = False
 
 if save_fig:
-    plt.savefig(sample_name + ".png", bbox_inches='tight')
+    plt.savefig(".".join(sample_names) + ".png", bbox_inches='tight')
 
 plt.draw()
 plt.show()
-
-
-
-
-
 
