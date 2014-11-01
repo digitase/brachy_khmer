@@ -16,7 +16,7 @@ for filename, sample_name in zip(filenames, sample_names):
     plt.plot(hist[:, 0], np.log10(hist[:, 1]), label=sample_name)
 
 plt.legend(loc='best')
-plt.suptitle("\n".join(sample_names))
+# plt.suptitle("\n".join(sample_names))
 plt.xlabel("Kmer abundance")
 plt.ylabel("log10(Frequency)")
 
