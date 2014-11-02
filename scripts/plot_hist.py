@@ -1,4 +1,6 @@
-
+# Plot .hist outputs from khmer
+# AUTHOR: Ben Bai (u5205339@anu.edu.au)
+# DATE: Oct 2014
 import os
 import sys
 import numpy as np

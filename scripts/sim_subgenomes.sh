@@ -1,4 +1,7 @@
 #!/bin/bash
+# Simulate WGS reads with wgsim at differing polymorphism rates, then merge.
+# AUTHOR: Ben Bai (u5205339@anu.edu.au)
+# DATE: Oct 2014
 
 REF_FILE=$1
 TOTAL_READ_NUM=$2

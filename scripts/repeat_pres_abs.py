@@ -1,4 +1,8 @@
-
+# Load .htable kmer hash tables from khmer. 
+# Find abundant kmers and count over all samples.
+# Normalise counts by library size.
+# AUTHOR: Ben Bai (u5205339@anu.edu.au)
+# DATE: Oct 2014
 import khmer
 import itertools as it
 import heapq
@@ -72,5 +76,4 @@ for i, line in enumerate(table_files):
 print "Mean sample presence proportion is {0:.2f}%".format(sum(pc_pres)/len(pc_pres))       
 outfile.close()
 print "Output matrix saved to", out_filename
-
 

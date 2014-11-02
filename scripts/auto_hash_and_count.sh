@@ -1,4 +1,7 @@
 #!/bin/bash
+# Hash and count .il.fq.gz sequence reads using khmer.
+# AUTHOR: Ben Bai (u5205339@anu.edu.au)
+# DATE: Oct 2014
 
 SEQ_FILE=$1
 N_TABLES=$2

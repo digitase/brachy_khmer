@@ -1,3 +1,6 @@
+# Cluster kmer counts matrix and plot dendrogram
+# AUTHOR: Ben Bai (u5205339@anu.edu.au)
+# DATE: Oct 2014
 
 infile <- commandArgs(TRUE)[1]
 outfile <- commandArgs(TRUE)[2]
@@ -6,7 +9,8 @@ x <- read.table(infile, sep=",", row.name=1)
 hc <- hclust(dist(x))
 hcd <- as.dendrogram(hc)
 
-# Function to get colored labels for samples with "bd_1" or "bd_6" in name
+# Specific function to get colored labels for samples with "bd_1" or "bd_6" in name
+# Used in the demo.
 # TODO Make this generic.
 # Modified from source: 
 # http://rstudio-pubs-static.s3.amazonaws.com/1876_df0bf890dd54461f98719b461d987c3d.html
