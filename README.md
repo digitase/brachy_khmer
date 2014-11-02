@@ -3,6 +3,9 @@
 
 Repository for BIOL3157 ASE, ANU, S2 2014
 
+#### Author
+Ben Bai, CMBE, ANU, Canberra
+
 #### NOTE
 For a more comprehensive summary of the workflow, see the IPython Notebook `doc/brachy_khmer.ipnb`
 
