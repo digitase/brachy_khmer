@@ -33,7 +33,7 @@ def generate_kmer_counts(k, ht, alpha="ACTG"):
         kmer_str = "".join(kmer)
         j += 1
         if not j % 1000000:
-            print "{0:.2f}% complete.".format(float(j)/num_kmers * 100)
+            print "{:.2%} complete.".format(float(j)/num_kmers)
         yield (ht.get(kmer_str), kmer_str)
 
 # Get most abundant kmers in first sample
